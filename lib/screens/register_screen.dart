@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:questanaire_app/widgets/snackBar.dart';
 
 import '../responsive/responsive.dart';
 import '../widgets/text_field_style.dart';
@@ -89,20 +91,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 onPressed: () async {
                   var email = emailController.text;
                   var password = passwordController.text;
-                  if (emailController.text == "" &&
-                      passwordController.text == "") {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text("Username and password can't be empty"),
-                      ),
-                    );
-                  } else {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => HomeScreen(),
-                      ),
-                    );
+
+                  try {
+                    final User? user =
+                        (await authServices.signUp(email, password)).user;
+                    if (user != null) {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => HomeScreen(),
+                        ),
+                      );
+                    }
+                  } on FirebaseAuthException catch (e) {
+                    showSnackBar(context, e.message);
                   }
                 },
                 child: const Text(
