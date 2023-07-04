@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "943324468470",
+    "project_id": "questionaire-app-qizo",
+    "storage_bucket": "questionaire-app-qizo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:943324468470:android:361df451a86812954108d7",
+        "android_client_info": {
+          "package_name": "com.example.questanaire_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "943324468470-e2pommiulr7bmfpbb3h09hg05175noit.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBXuFhvuw6teejGULmv2RNN1xO-7W7No80"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "943324468470-e2pommiulr7bmfpbb3h09hg05175noit.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
