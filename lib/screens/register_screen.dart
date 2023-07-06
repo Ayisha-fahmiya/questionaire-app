@@ -1,11 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:questanaire_app/widgets/snackBar.dart';
-
+import 'package:questanaire_app/widgets/custom_button.dart';
 import '../responsive/responsive.dart';
-import '../widgets/text_field_style.dart';
-import 'home_screen.dart';
-import 'login_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -14,137 +10,146 @@ class RegisterScreen extends StatefulWidget {
   State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-TextEditingController emailController = TextEditingController();
-
-TextEditingController passwordController = TextEditingController();
-TextEditingController userNameController = TextEditingController();
-
 class _RegisterScreenState extends State<RegisterScreen> {
+  final TextEditingController phoneController = TextEditingController();
+  Country selctedCountry = Country(
+    phoneCode: "91",
+    countryCode: "IN",
+    e164Sc: 0,
+    geographic: true,
+    level: 1,
+    name: "India",
+    example: "India",
+    displayName: "India",
+    displayNameNoCountryCode: "IN",
+    e164Key: "",
+  );
+
   @override
   Widget build(BuildContext context) {
+    phoneController.selection = TextSelection.fromPosition(
+      TextPosition(
+        offset: phoneController.text.length,
+      ),
+    );
     return Scaffold(
       body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: R.sw(36, context),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Center(
-                child: Text(
-                  "Qizo",
+        child: Center(
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+              vertical: R.sh(24, context),
+              horizontal: R.sw(36, context),
+            ),
+            child: Column(
+              children: [
+                Container(
+                  width: R.sw(200, context),
+                  height: R.sh(200, context),
+                  padding: EdgeInsets.all(R.sw(20, context)),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.purple.shade50,
+                  ),
+                  child: Image.asset(
+                    "assets/images/image2.png",
+                  ),
+                ),
+                SizedBox(height: R.sh(20, context)),
+                Text(
+                  "Register",
                   style: TextStyle(
-                    color: Colors.blue[900],
+                    fontSize: R.sw(22, context),
                     fontWeight: FontWeight.bold,
-                    fontSize: R.sw(48, context),
                   ),
                 ),
-              ),
-              SizedBox(
-                height: R.sh(42, context),
-              ),
-              Text(
-                "Create your Account",
-                style: TextStyle(
-                  fontSize: R.sw(14, context),
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              SizedBox(
-                height: R.sh(24, context),
-              ),
-              TextFieldStyle(
-                hintText: "name",
-                controller: userNameController,
-              ),
-              SizedBox(
-                height: R.sh(12, context),
-              ),
-              TextFieldStyle(
-                hintText: "Email",
-                controller: emailController,
-              ),
-              SizedBox(
-                height: R.sh(12, context),
-              ),
-              TextFieldStyle(
-                hintText: "Password",
-                controller: passwordController,
-              ),
-              SizedBox(
-                height: R.sh(24, context),
-              ),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
+                SizedBox(height: R.sh(10, context)),
+                Text(
+                  "Add your phone number. We'll send you a verification code",
+                  style: TextStyle(
+                    fontSize: R.sw(14, context),
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black38,
                   ),
-                  elevation: 6,
-                  backgroundColor: Colors.blue[900],
-                  minimumSize: Size(
-                    R.sw(375, context),
-                    R.sh(40, context),
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(height: R.sh(20, context)),
+                TextFormField(
+                  cursorColor: Colors.purple,
+                  controller: phoneController,
+                  style: TextStyle(
+                    fontSize: R.sw(18, context),
+                    fontWeight: FontWeight.bold,
                   ),
-                ),
-                onPressed: () async {
-                  var email = emailController.text;
-                  var password = passwordController.text;
-
-                  try {
-                    final User? user =
-                        (await authServices.signUp(email, password)).user;
-                    if (user != null) {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => HomeScreen(),
-                        ),
-                      );
-                    }
-                  } on FirebaseAuthException catch (e) {
-                    showSnackBar(context, e.message);
-                  }
-                },
-                child: const Text(
-                  "Sign up",
-                  style: TextStyle(),
-                ),
-              ),
-              SizedBox(
-                height: R.sh(24, context),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "Already have an account?",
-                    style: TextStyle(
-                      fontSize: R.sw(12, context),
+                  onChanged: (value) {
+                    setState(() {
+                      phoneController.text = value;
+                    });
+                  },
+                  decoration: InputDecoration(
+                    hintText: "Enter phone number",
+                    hintStyle: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: R.sw(14, context),
+                      color: Colors.grey,
                     ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => LoginScreen(),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(color: Colors.black12),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(color: Colors.black12),
+                    ),
+                    prefixIcon: Container(
+                      padding: EdgeInsets.all(R.sw(8.0, context)),
+                      child: InkWell(
+                        onTap: () {
+                          showCountryPicker(
+                            context: context,
+                            countryListTheme: CountryListThemeData(
+                                bottomSheetHeight: R.sh(600, context)),
+                            onSelect: (value) {
+                              setState(() {
+                                selctedCountry = value;
+                              });
+                            },
+                          );
+                        },
+                        child: Text(
+                          "${selctedCountry.flagEmoji}  +${selctedCountry.phoneCode}",
+                          style: TextStyle(
+                            fontSize: R.sw(18, context),
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      );
-                    },
-                    child: Text(
-                      " Log in",
-                      style: TextStyle(
-                        color: Colors.blue[900],
-                        fontWeight: FontWeight.bold,
-                        fontSize: R.sw(12, context),
                       ),
                     ),
+                    suffixIcon: phoneController.text.length == 9
+                        ? Container(
+                      height: R.sh(30, context),
+                      width: R.sw(30, context),
+                      margin: EdgeInsets.all(R.sw(10.0, context)),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.green,
+                      ),
+                      child: Icon(
+                        Icons.done,
+                        color: Colors.white,
+                        size: R.sw(20, context),
+                      ),
+                    )
+                        : null,
                   ),
-                ],
-              ),
-            ],
+                ),
+                SizedBox(height: R.sh(20.0, context)),
+                CustomButton(
+                  onPressed: () {},
+                  text: "Register",
+                ),
+              ],
+            ),
           ),
         ),
       ),
