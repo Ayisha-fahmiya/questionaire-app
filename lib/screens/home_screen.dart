@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:questanaire_app/provider/auth_provider.dart';
+import 'package:questanaire_app/screens/register_screen.dart';
+import 'package:questanaire_app/screens/welcome_screen.dart';
 
 import '../constants/constants.dart';
 import '../models/question_model.dart';
@@ -62,9 +66,27 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final ap = Provider.of<AuthProvider>(context, listen: false);
     return Scaffold(
       backgroundColor: background,
       appBar: AppBar(
+        actions: [
+          IconButton(
+            onPressed: () {
+              ap.userSignOut().then(
+                    (value) => Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => WelcomScreen(),
+                      ),
+                    ),
+                  );
+            },
+            icon: Icon(
+              Icons.exit_to_app,
+            ),
+          ),
+        ],
         backgroundColor: background,
         title: const Text("Quiz App"),
         shadowColor: Colors.transparent,

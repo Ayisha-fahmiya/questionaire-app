@@ -1,5 +1,7 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:questanaire_app/provider/auth_provider.dart';
 import 'package:questanaire_app/widgets/custom_button.dart';
 import '../responsive/responsive.dart';
 
@@ -32,7 +34,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
         offset: phoneController.text.length,
       ),
     );
-    return Scaffold(resizeToAvoidBottomInset: false,
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Center(
           child: Padding(
@@ -125,28 +128,30 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                       ),
                     ),
-                    suffixIcon: phoneController.text.length == 9
+                    suffixIcon: phoneController.text.length == 10
                         ? Container(
-                      height: R.sh(30, context),
-                      width: R.sw(30, context),
-                      margin: EdgeInsets.all(R.sw(10.0, context)),
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.green,
-                      ),
-                      child: Icon(
-                        Icons.done,
-                        color: Colors.white,
-                        size: R.sw(20, context),
-                      ),
-                    )
+                            height: R.sh(30, context),
+                            width: R.sw(30, context),
+                            margin: EdgeInsets.all(R.sw(10.0, context)),
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.green,
+                            ),
+                            child: Icon(
+                              Icons.done,
+                              color: Colors.white,
+                              size: R.sw(20, context),
+                            ),
+                          )
                         : null,
                   ),
                 ),
                 SizedBox(height: R.sh(20.0, context)),
                 CustomButton(
-                  onPressed: () {},
-                  text: "Register",
+                  onPressed: () {
+                    sendPhoneNumber();
+                  },
+                  text: "Get OTP",
                 ),
               ],
             ),
@@ -154,5 +159,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
       ),
     );
+  }
+
+  void sendPhoneNumber() {
+    final ap = Provider.of<AuthProvider>(context, listen: false);
+    String phoneNumber = phoneController.text.trim();
+    ap.signInWithPhone(context, "+${selctedCountry.phoneCode}$phoneNumber");
   }
 }

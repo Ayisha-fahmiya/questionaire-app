@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:questanaire_app/provider/auth_provider.dart';
 import 'package:questanaire_app/responsive/responsive.dart';
+import 'package:questanaire_app/screens/home_screen.dart';
 import 'package:questanaire_app/screens/register_screen.dart';
 import 'package:questanaire_app/widgets/custom_button.dart';
 
@@ -13,6 +16,7 @@ class WelcomScreen extends StatefulWidget {
 class _WelcomScreenState extends State<WelcomScreen> {
   @override
   Widget build(BuildContext context) {
+    final ap = Provider.of<AuthProvider>(context, listen: false);
     return Scaffold(
       body: SafeArea(
         child: Center(
@@ -48,13 +52,24 @@ class _WelcomScreenState extends State<WelcomScreen> {
                 ),
                 SizedBox(height: R.sh(20, context)),
                 CustomButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => RegisterScreen(),
-                      ),
-                    );
+                  onPressed: () async {
+                    if (ap.isSignIn) {
+                      await ap.getDataFromSP().whenComplete(
+                            () => Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => HomeScreen(),
+                              ),
+                            ),
+                          );
+                    } else {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => RegisterScreen(),
+                        ),
+                      );
+                    }
                   },
                   text: "Get Started",
                 ),
