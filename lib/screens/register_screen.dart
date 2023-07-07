@@ -32,7 +32,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         offset: phoneController.text.length,
       ),
     );
-    return Scaffold(
+    return Scaffold(resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Center(
           child: Padding(
@@ -101,7 +101,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       borderSide: BorderSide(color: Colors.black12),
                     ),
                     prefixIcon: Container(
-                      padding: EdgeInsets.all(R.sw(8.0, context)),
+                      padding: EdgeInsets.all(R.sw(12.0, context)),
                       child: InkWell(
                         onTap: () {
                           showCountryPicker(
@@ -118,7 +118,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         child: Text(
                           "${selctedCountry.flagEmoji}  +${selctedCountry.phoneCode}",
                           style: TextStyle(
-                            fontSize: R.sw(18, context),
+                            fontSize: R.sw(16, context),
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
                           ),
