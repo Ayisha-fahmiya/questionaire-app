@@ -9,7 +9,7 @@ import '../responsive/responsive.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
-
+  static String verify = "";
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
 }
@@ -161,6 +161,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           (PhoneAuthCredential credential) {},
                       verificationFailed: (FirebaseAuthException e) {},
                       codeSent: (String verificationId, int? resendToken) {
+                        RegisterScreen.verify = verificationId;
+                        // Navigator.pushNamed(context, "otp");
                         Navigator.push(
                           context,
                           MaterialPageRoute(

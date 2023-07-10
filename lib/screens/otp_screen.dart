@@ -1,8 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
 import 'package:questanaire_app/provider/auth_provider.dart';
 import 'package:questanaire_app/screens/home_screen.dart';
+import 'package:questanaire_app/screens/register_screen.dart';
 import 'package:questanaire_app/screens/user_info_screen.dart';
 import 'package:questanaire_app/widgets/custom_button.dart';
 import 'package:questanaire_app/widgets/snackBar.dart';
@@ -18,11 +20,13 @@ class OTPScreen extends StatefulWidget {
 }
 
 class _OTPScreenState extends State<OTPScreen> {
+  final FirebaseAuth auth = FirebaseAuth.instance;
   String? otpCode;
   @override
   Widget build(BuildContext context) {
     final isLoading =
         Provider.of<AuthProvider>(context, listen: true).isLoading;
+    var code = "";
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SafeArea(
@@ -79,6 +83,9 @@ class _OTPScreenState extends State<OTPScreen> {
                       ),
                       SizedBox(height: R.sh(20, context)),
                       Pinput(
+                        onChanged: (value) {
+                          code = value;
+                        },
                         length: 6,
                         showCursor: true,
                         defaultPinTheme: PinTheme(
@@ -105,10 +112,27 @@ class _OTPScreenState extends State<OTPScreen> {
                       SizedBox(height: R.sh(24, context)),
                       CustomButton(
                         text: "Verify",
-                        onPressed: () {
-                          if (otpCode != null) {
-                            verifyOtp(context, otpCode!);
-                          } else {
+                        onPressed: () async {
+                          try {
+                            PhoneAuthCredential credential =
+                                PhoneAuthProvider.credential(
+                              verificationId: RegisterScreen.verify,
+                              smsCode: code,
+                            );
+
+                            await auth.signInWithCredential(credential);
+                            Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => HomeScreen(),
+                                ),
+                                (route) => false);
+                            // if (otpCode != null) {
+                            //   verifyOtp(context, otpCode!);
+                            // } else {
+                            //   showSnackBar(context, "Enter 6-digit code");
+                            // }
+                          } catch (e) {
                             showSnackBar(context, "Enter 6-digit code");
                           }
                         },

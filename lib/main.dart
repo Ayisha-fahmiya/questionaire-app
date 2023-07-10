@@ -1,6 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:questanaire_app/provider/auth_provider.dart';
+import 'package:questanaire_app/screens/home_screen.dart';
+import 'package:questanaire_app/screens/otp_screen.dart';
+import 'package:questanaire_app/screens/register_screen.dart';
 import 'package:questanaire_app/screens/welcome_screen.dart';
 import 'firebase_options.dart';
 import 'package:provider/provider.dart';
@@ -22,14 +25,15 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (context) => AuthProvider()),
       ],
-      child: const MaterialApp(
+      child: MaterialApp(
         debugShowCheckedModeBanner: false,
         home: WelcomScreen(),
         initialRoute: "phone",
-        // routes: {
-        //   "phone": (context) => MyPhone(),
-        //   "otp": (context) => MyOtp(),
-        // },
+        routes: {
+          "phone": (context) => RegisterScreen(),
+          "otp": (context) => OTPScreen(verificationId: ''),
+          "home": (context) => HomeScreen(),
+        },
       ),
     );
   }
