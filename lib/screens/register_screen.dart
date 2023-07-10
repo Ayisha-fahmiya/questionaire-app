@@ -1,7 +1,9 @@
 import 'package:country_picker/country_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:questanaire_app/provider/auth_provider.dart';
+import 'package:questanaire_app/screens/otp_screen.dart';
 import 'package:questanaire_app/widgets/custom_button.dart';
 import '../responsive/responsive.dart';
 
@@ -13,6 +15,7 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+  var phone = "";
   final TextEditingController phoneController = TextEditingController();
   Country selctedCountry = Country(
     phoneCode: "91",
@@ -78,12 +81,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 SizedBox(height: R.sh(20, context)),
                 TextFormField(
                   cursorColor: Colors.purple,
+                  keyboardType: TextInputType.phone,
                   controller: phoneController,
                   style: TextStyle(
                     fontSize: R.sw(18, context),
                     fontWeight: FontWeight.bold,
                   ),
                   onChanged: (value) {
+                    phone = value;
                     setState(() {
                       phoneController.text = value;
                     });
@@ -148,8 +153,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
                 SizedBox(height: R.sh(20.0, context)),
                 CustomButton(
-                  onPressed: () {
-                    sendPhoneNumber();
+                  onPressed: () async {
+                    await FirebaseAuth.instance.verifyPhoneNumber(
+                      phoneNumber:
+                          selctedCountry.phoneCode + phoneController.text,
+                      verificationCompleted:
+                          (PhoneAuthCredential credential) {},
+                      verificationFailed: (FirebaseAuthException e) {},
+                      codeSent: (String verificationId, int? resendToken) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                OTPScreen(verificationId: verificationId),
+                          ),
+                        );
+                      },
+                      codeAutoRetrievalTimeout: (String verificationId) {},
+                    );
+                    // sendPhoneNumber();
                   },
                   text: "Get OTP",
                 ),

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:questanaire_app/provider/auth_provider.dart';
-import 'package:questanaire_app/screens/register_screen.dart';
 import 'package:questanaire_app/screens/welcome_screen.dart';
-
 import '../constants/constants.dart';
 import '../models/question_model.dart';
 import '../responsive/responsive.dart';

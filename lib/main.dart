@@ -25,6 +25,11 @@ class MyApp extends StatelessWidget {
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,
         home: WelcomScreen(),
+        initialRoute: "phone",
+        // routes: {
+        //   "phone": (context) => MyPhone(),
+        //   "otp": (context) => MyOtp(),
+        // },
       ),
     );
   }
