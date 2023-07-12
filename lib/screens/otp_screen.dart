@@ -116,8 +116,8 @@ class _OTPScreenState extends State<OTPScreen> {
                           try {
                             PhoneAuthCredential credential =
                                 PhoneAuthProvider.credential(
-                              verificationId: RegisterScreen.verify,
-                              smsCode: code,
+                              verificationId: widget.verificationId,
+                              smsCode: otpCode!,
                             );
 
                             await auth.signInWithCredential(credential);
@@ -134,6 +134,7 @@ class _OTPScreenState extends State<OTPScreen> {
                             // }
                           } catch (e) {
                             showSnackBar(context, "Enter 6-digit code");
+                            print(e.toString());
                           }
                         },
                       ),

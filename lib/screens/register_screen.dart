@@ -3,8 +3,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:questanaire_app/provider/auth_provider.dart';
+import 'package:questanaire_app/screens/home_screen.dart';
 import 'package:questanaire_app/screens/otp_screen.dart';
 import 'package:questanaire_app/widgets/custom_button.dart';
+import 'package:questanaire_app/widgets/snackBar.dart';
 import '../responsive/responsive.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -156,10 +158,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   onPressed: () async {
                     await FirebaseAuth.instance.verifyPhoneNumber(
                       phoneNumber:
-                          selctedCountry.phoneCode + phoneController.text,
-                      verificationCompleted:
-                          (PhoneAuthCredential credential) {},
-                      verificationFailed: (FirebaseAuthException e) {},
+                          "+${selctedCountry.phoneCode + phoneController.text.trim()}",
+                      // selctedCountry.phoneCode + phoneController.text,
+                      verificationCompleted: (PhoneAuthCredential credential) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const HomeScreen(),
+                          ),
+                        );
+                      },
+                      verificationFailed: (FirebaseAuthException e) {
+                        showSnackBar(context, "Varification failed");
+                      },
                       codeSent: (String verificationId, int? resendToken) {
                         RegisterScreen.verify = verificationId;
                         // Navigator.pushNamed(context, "otp");
