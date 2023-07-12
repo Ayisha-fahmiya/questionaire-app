@@ -1,9 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:questanaire_app/provider/auth_provider.dart';
-import 'package:questanaire_app/screens/home_screen.dart';
-import 'package:questanaire_app/screens/otp_screen.dart';
-import 'package:questanaire_app/screens/register_screen.dart';
 import 'package:questanaire_app/screens/welcome_screen.dart';
 import 'firebase_options.dart';
 import 'package:provider/provider.dart';
