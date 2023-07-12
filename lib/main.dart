@@ -28,12 +28,12 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         home: WelcomScreen(),
-        initialRoute: "phone",
-        routes: {
-          "phone": (context) => RegisterScreen(),
-          "otp": (context) => OTPScreen(verificationId: ''),
-          "home": (context) => HomeScreen(),
-        },
+        // initialRoute: "phone",
+        // routes: {
+        //   "phone": (context) => RegisterScreen(),
+        //   "otp": (context) => OTPScreen(verificationId: ''),
+        //   "home": (context) => HomeScreen(),
+        // },
       ),
     );
   }
